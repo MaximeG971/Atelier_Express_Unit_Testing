@@ -44,20 +44,20 @@ describe('🎧 TRACKS ROUTES', () => {
     persistentDatas.createdTrack = res.body;
   });
 
-  // it(`should update the created track title 🧪 /api/tracks/`, async () => {
-  //   await supertest(app)
-  //     .put(`/api/tracks/${persistentDatas.createdTrack.id}`)
-  //     .send({
-  //       title: 'Bohemian Rhapsody',
-  //     })
-  //     .expect(204);
+  it(`should update the created track title 🧪 /api/tracks/`, async () => {
+    await supertest(app)
+      .put(`/api/tracks/${persistentDatas.createdTrack.id}`)
+      .send({
+        title: 'Bohemian Rhapsody',
+      })
+      .expect(204);
 
-  //   const res = await supertest(app).get(
-  //     `/api/tracks/${persistentDatas.createdTrack.id}`
-  //   );
+    const res = await supertest(app).get(
+      `/api/tracks/${persistentDatas.createdTrack.id}`
+    );
 
-  //   expect(res.body).toHaveProperty('title', 'Bohemian Rhapsody');
-  // });
+    expect(res.body).toHaveProperty('title', 'Bohemian Rhapsody');
+  });
 
   it(`should delete the created album 🧪 /api/tracks/`, async () => {
     await supertest(app)
