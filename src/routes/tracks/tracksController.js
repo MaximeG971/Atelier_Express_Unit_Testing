@@ -47,8 +47,8 @@ const updateTracks = (req, res) => {
 const deleteTracks = async (req, res) => {
   const id = parseInt(req.params.id);
   try {
-    const tracksById = await db.query('DELETE from track WHERE id = ?', [id]);
-    res.status(200).json(tracksById[0][0]);
+    const deleteById = await db.query('DELETE from track WHERE id = ?', [id]);
+    res.status(200).json(deleteById[0][0]);
   } catch (error) {
     console.error(error);
     res.sendStatus(500);
