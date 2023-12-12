@@ -45,12 +45,30 @@ const postAlbums = (req, res) => {
     });
 };
 
-const updateAlbums = (req, res) => {
-  res.status(200).send('Update route is OK');
+const updateAlbums = async (req, res) => {
+  const id = parseInt(req.params.id);
+  const { title, genre, picture, artist } = req.body;
+  try {
+    const updateById = await db.query(
+      'update albums SET title = ?, genre = ?, picture = ?, artist = ? WHERE id = ?',
+      [title, genre, picture, artist, id]
+    );
+    res.status(200).json(updateById[0]);
+  } catch (error) {
+    console.error(error);
+    res.sendStatus(500);
+  }
 };
 
-const deleteAlbums = (req, res) => {
-  res.status(200).send('Delete route is Ok');
+const deleteAlbums = async (req, res) => {
+  const id = parseInt(req.params.id);
+  try {
+    const deleteById = await db.query('DELETE from albums WHERE id = ?', [id]);
+    res.status(200).json(deleteById[0][0]);
+  } catch (error) {
+    console.error(error);
+    res.sendStatus(500);
+  }
 };
 
 module.exports = {
