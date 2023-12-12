@@ -44,8 +44,15 @@ const updateTracks = (req, res) => {
   res.status(200).send('Update route is OK');
 };
 
-const deleteTracks = (req, res) => {
-  res.status(200).send('Delete route is OK');
+const deleteTracks = async (req, res) => {
+  const id = parseInt(req.params.id);
+  try {
+    const tracksById = await db.query('DELETE from track WHERE id = ?', [id]);
+    res.status(200).json(tracksById[0][0]);
+  } catch (error) {
+    console.error(error);
+    res.sendStatus(500);
+  }
 };
 
 module.exports = { getOne, getAll, postTracks, updateTracks, deleteTracks };

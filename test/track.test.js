@@ -59,13 +59,13 @@ describe('🎧 TRACKS ROUTES', () => {
   //   expect(res.body).toHaveProperty('title', 'Bohemian Rhapsody');
   // });
 
-  // it(`should delete the created album 🧪 /api/tracks/`, async () => {
-  //   await supertest(app)
-  //     .delete(`/api/tracks/${persistentDatas.createdTrack.id}`)
-  //     .expect(204);
+  it(`should delete the created album 🧪 /api/tracks/`, async () => {
+    await supertest(app)
+      .delete(`/api/tracks/${persistentDatas.createdTrack.id}`)
+      .expect(204);
 
-  //   await supertest(app)
-  //     .get(`/api/tracks/${persistentDatas.createdTrack.id}`)
-  //     .expect(404);
-  // });
+    await supertest(app)
+      .get(`/api/tracks/${persistentDatas.createdTrack.id}`)
+      .expect(404);
+  });
 });
