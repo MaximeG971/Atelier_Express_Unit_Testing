@@ -30,7 +30,19 @@ const getTracksByAlbumId = (req, res) => {
 };
 
 const postAlbums = (req, res) => {
-  res.status(200).send('Post route is OK');
+  const { title, genre, picture, artist } = req.body;
+
+  db.query(
+    'INSERT INTO albums(title, genre, picture, artist) VALUES (?, ?, ?, ?)',
+    [title, genre, picture, artist]
+  )
+    .then(([result]) => {
+      res.status(201).send({ id: result.insertId });
+    })
+    .catch((err) => {
+      console.error(err);
+      res.sendStatus(500);
+    });
 };
 
 const updateAlbums = (req, res) => {
