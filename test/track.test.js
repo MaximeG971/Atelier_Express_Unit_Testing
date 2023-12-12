@@ -31,18 +31,18 @@ describe('🎧 TRACKS ROUTES', () => {
     });
   });
 
-  // it('should create a new track 🧪 /api/tracks', async () => {
-  //   const res = await supertest(app)
-  //     .post('/api/tracks')
-  //     .send(trackToCreate)
-  //     .expect(201)
-  //     .expect('Content-Type', /json/);
+  it('should create a new track 🧪 /api/tracks', async () => {
+    const res = await supertest(app)
+      .post('/api/tracks')
+      .send(trackToCreate)
+      .expect(201)
+      .expect('Content-Type', /json/);
 
-  //   trackKeys.map((prop) => {
-  //     expect(res.body).toHaveProperty(prop);
-  //   });
-  //   persistentDatas.createdTrack = res.body;
-  // });
+    trackKeys.map((prop) => {
+      expect(res.body).toHaveProperty(prop);
+    });
+    persistentDatas.createdTrack = res.body;
+  });
 
   // it(`should update the created track title 🧪 /api/tracks/`, async () => {
   //   await supertest(app)

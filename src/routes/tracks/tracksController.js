@@ -23,8 +23,21 @@ const getAll = async (req, res) => {
   }
 };
 
-const postTracks = (req, res) => {
-  res.status(200).send('Post route is OK');
+const postTracks = async (req, res) => {
+  const { title, youtube_url, id_album } = req.body;
+
+  db.query('INSERT INTO track(title, youtube_url, id_album) VALUES (?, ?, ?)', [
+    title,
+    youtube_url,
+    id_album,
+  ])
+    .then(([result]) => {
+      res.status(201).send({ id: result.insertId });
+    })
+    .catch((err) => {
+      console.error(err);
+      res.sendStatus(500);
+    });
 };
 
 const updateTracks = (req, res) => {
