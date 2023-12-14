@@ -43,7 +43,7 @@ const postAlbums = async (req, res) => {
   try {
     const album = await db.query(
       'INSERT INTO albums(title, genre, picture, artist) VALUES (?, ?, ?, ?)',
-      [req.body.title, req.body.genrel, req.body.picture, req.body.artist]
+      [req.body.title, req.body.genre, req.body.picture, req.body.artist]
     );
     res.status(201).json({ ...req.body, id: album[0].insertId });
   } catch (error) {
