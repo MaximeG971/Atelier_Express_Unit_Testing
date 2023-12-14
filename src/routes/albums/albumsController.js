@@ -13,49 +13,52 @@ const getAll = async (req, res) => {
 };
 
 const getOne = async (req, res) => {
-  const id = parseInt(req.params.id);
   try {
-    const albumsById = await db.query('SELECT * from albums WHERE id = ?', [
-      id,
+    const albums = await db.query('SELECT * from albums WHERE id = ?', [
+      req.params.id,
     ]);
-    res.status(200).json(albumsById[0][0]);
+    if (albums[0][0]) {
+      res.status(200).json(albums[0][0]);
+    } else {
+      res.sendStatus(404);
+    }
   } catch (error) {
     console.error(error);
     res.sendStatus(500);
   }
 };
 
-const getTracksByAlbumId = (req, res) => {
-  res.status(200).send('Get Albums route is OK');
+const getTracksByAlbumId = async (req, res) => {
+  try {
+    const albums = await db.query('SELECT * FROM track where id_album = ?', [
+      req.params.id,
+    ]);
+    res.status(200).json(albums[0]);
+  } catch (error) {
+    res.sendStatus(500);
+  }
 };
 
-const postAlbums = (req, res) => {
-  const { title, genre, picture, artist } = req.body;
-
-  db.query(
-    'INSERT INTO albums(title, genre, picture, artist) VALUES (?, ?, ?, ?)',
-    [title, genre, picture, artist]
-  )
-    .then(([result]) => {
-      res.status(201).send({ id: result.insertId });
-    })
-    .catch((err) => {
-      console.error(err);
-      res.sendStatus(500);
-    });
+const postAlbums = async (req, res) => {
+  try {
+    const album = await db.query(
+      'INSERT INTO albums(title, genre, picture, artist) VALUES (?, ?, ?, ?)',
+      [req.body.title, req.body.genrel, req.body.picture, req.body.artist]
+    );
+    res.status(201).json({ ...req.body, id: album[0].insertId });
+  } catch (error) {
+    res.sendStatus(500);
+  }
 };
 
 const updateAlbums = async (req, res) => {
-  const id = parseInt(req.params.id);
-  const { title, genre, picture, artist } = req.body;
   try {
-    const updateById = await db.query(
-      'update albums SET title = ?, genre = ?, picture = ?, artist = ? WHERE id = ?',
-      [title, genre, picture, artist, id]
-    );
-    res.status(200).json(updateById[0]);
+    await db.query('UPDATE albums set ? WHERE id = ?', [
+      req.body,
+      req.params.id,
+    ]);
+    res.sendStatus(204);
   } catch (error) {
-    console.error(error);
     res.sendStatus(500);
   }
 };
@@ -64,10 +67,10 @@ const deleteAlbums = async (req, res) => {
   const id = parseInt(req.params.id);
   try {
     const deleteById = await db.query('DELETE from albums WHERE id = ?', [id]);
-    res.status(200).json(deleteById[0][0]);
+    res.status(204).json(deleteById[0][0]);
   } catch (error) {
     console.error(error);
-    res.sendStatus(500);
+    res.sendStatus(404);
   }
 };
 

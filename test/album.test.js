@@ -21,21 +21,21 @@ describe('🎧 ALBUMS ROUTES', () => {
     });
   });
 
-  //   it('should get the track list of album 1 🧪 /api/albums/1/tracks', async () => {
-  //     const res = await supertest(app)
-  //       .get('/api/albums/1/tracks')
-  //       .expect(200)
-  //       .expect('Content-Type', /json/);
+  it('should get the track list of album 1 🧪 /api/albums/1/tracks', async () => {
+    const res = await supertest(app)
+      .get('/api/albums/1/tracks')
+      .expect(200)
+      .expect('Content-Type', /json/);
 
-  //     expect(Array.isArray(res.body)).toBe(true);
+    expect(Array.isArray(res.body)).toBe(true);
 
-  //     res.body.forEach((track) => {
-  //       expect(track).toHaveProperty('id_album', 1);
-  //       trackKeys.map((prop) => {
-  //         expect(track).toHaveProperty(prop);
-  //       });
-  //     });
-  //   });
+    res.body.forEach((track) => {
+      expect(track).toHaveProperty('id_album', 1);
+      trackKeys.map((prop) => {
+        expect(track).toHaveProperty(prop);
+      });
+    });
+  });
 
   it('should get the album with id 1 🧪 /api/albums/1', async () => {
     const res = await supertest(app)
@@ -61,28 +61,28 @@ describe('🎧 ALBUMS ROUTES', () => {
     persistentDatas.createdAlbum = res.body;
   });
 
-  //   it(`should update the created album title 🧪 /api/albums/`, async () => {
-  //     await supertest(app)
-  //       .put(`/api/albums/${persistentDatas.createdAlbum.id}`)
-  //       .send({
-  //         title: 'The Light Side of the Sun',
-  //       })
-  //       .expect(204);
+  it(`should update the created album title 🧪 /api/albums/`, async () => {
+    await supertest(app)
+      .put(`/api/albums/${persistentDatas.createdAlbum.id}`)
+      .send({
+        title: 'The Light Side of the Sun',
+      })
+      .expect(204);
 
-  //     const res = await supertest(app).get(
-  //       `/api/albums/${persistentDatas.createdAlbum.id}`
-  //     );
+    const res = await supertest(app).get(
+      `/api/albums/${persistentDatas.createdAlbum.id}`
+    );
 
-  //     expect(res.body).toHaveProperty('title', 'The Light Side of the Sun');
-  //   });
+    expect(res.body).toHaveProperty('title', 'The Light Side of the Sun');
+  });
 
-  //   it(`should delete the created album 🧪 /api/albums/4`, async () => {
-  //     await supertest(app)
-  //       .delete(`/api/albums/${persistentDatas.createdAlbum.id}`)
-  //       .expect(204);
+  it(`should delete the created album 🧪 /api/albums/4`, async () => {
+    await supertest(app)
+      .delete(`/api/albums/${persistentDatas.createdAlbum.id}`)
+      .expect(204);
 
-  //     await supertest(app)
-  //       .get(`/api/albums/${persistentDatas.createdAlbum.id}`)
-  //       .expect(404);
-  //   });
+    await supertest(app)
+      .get(`/api/albums/${persistentDatas.createdAlbum.id}`)
+      .expect(404);
+  });
 });
